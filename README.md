@@ -31,6 +31,26 @@ open http://localhost:5000/  # (Will also be on clipboard)
 ```
 
 
+# TODO
+This is a pet project I work on whenever I'm so inclined.
+
+I'm also using this project as an excuse to learn Vue.
+
+There are some broader UX improvements & algorithm improvements to be
+made (all detailed in the [bibliophile][bibliophile] repo).
+
+## Build improvements
+- Unit tests
+- Code coverage
+- Better TypeScript support for Vue
+- CI (GitHub Actions probably)
+
+## Miscellaneous improvements
+- Tell axios that api.dcain.me is okay with CORS
+    - (this will save unnecessary OPTIONS requests)
+- Include only the icons we need (no need to bundle them all)
+    - Make sure to check if there's a tree-shaking option available
+
 
 ### Attribution
 Favicon [licensed by FontAwesome][favicon-license].
