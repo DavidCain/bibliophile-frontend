@@ -40,10 +40,9 @@ There are some broader UX improvements & algorithm improvements to be
 made (all detailed in the [bibliophile][bibliophile] repo).
 
 ## Build improvements
-- Unit tests
+- Expand unit test coverage
 - Code coverage
 - Better TypeScript support for Vue
-- CI (GitHub Actions probably)
 
 ## Miscellaneous improvements
 - Tell axios that api.dcain.me is okay with CORS
