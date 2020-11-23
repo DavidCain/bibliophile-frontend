@@ -5,7 +5,12 @@
     <hr v-if="goodreadsBooks.length" />
     <div class="row">
       <div class="col-md-6">
-        <GoodreadsShelf :state="readShelfState" :books="goodreadsBooks" />
+        <GoodreadsShelf
+          :state="readShelfState"
+          :isCached="shelfIsCached"
+          :cachedTimestamp="shelfCachedTimestamp"
+          :books="goodreadsBooks"
+        />
       </div>
       <div class="col-md-6">
         <BookList :state="searchCatalogState" :books="biblioCommonsBooks" />
@@ -31,6 +36,8 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 
 type Data = {
   readShelfState: QueryState;
+  shelfIsCached: boolean;
+  shelfCachedTimestamp: number | null;
   searchCatalogState: QueryState;
   goodreadsBooks: GoodreadsBook[];
   biblioCommonsBooks: BiblioCommonsBook[];
@@ -46,6 +53,8 @@ export default Vue.extend({
   data(): Data {
     return {
       readShelfState: QueryState.NOT_STARTED,
+      shelfIsCached: false,
+      shelfCachedTimestamp: null,
       searchCatalogState: QueryState.NOT_STARTED,
       biblioCommonsBooks: [],
       goodreadsBooks: []
@@ -54,10 +63,13 @@ export default Vue.extend({
   methods: {
     async onSubmit(form: FormData) {
       this.readShelfState = QueryState.IN_PROGRESS;
-      const books: GoodreadsBook[] = await readShelf({
+      const { books, isReadFromCache, cachedTimestamp } = await readShelf({
         userId: form.userId,
-        shelf: form.shelf
+        shelf: form.shelf,
+        skipCache: false
       });
+      this.shelfIsCached = isReadFromCache;
+      this.shelfCachedTimestamp = cachedTimestamp;
       this.readShelfState = QueryState.COMPLETED;
       books.sort((a: GoodreadsBook, b: GoodreadsBook) =>
         a.title.localeCompare(b.title)

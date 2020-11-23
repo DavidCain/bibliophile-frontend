@@ -13,24 +13,28 @@ export enum QueryState {
 type ReadShelfParams = {
   userId: string;
   shelf: string;
+  skipCache: boolean | null;
 };
 
+type ReadShelfData = {
+  isReadFromCache: boolean;
+  cachedTimestamp: number | null;
+  books: GoodreadsBook[];
+};
 // TODO: This is lazy, and axios has much better TS integration
 // Use `AxiosResponse`, `axios.create()`, & similar
 type ReadShelfResponse = {
-  data: {
-    books: GoodreadsBook[];
-  };
+  data: ReadShelfData;
 };
 
 export async function readShelf(
   params: ReadShelfParams
-): Promise<GoodreadsBook[]> {
+): Promise<ReadShelfData> {
   const resp: ReadShelfResponse = await axios.post(
     "https://api.dcain.me/bibliophile/read_shelf",
     params
   );
-  return resp.data.books;
+  return resp.data;
 }
 
 type SearchCatalogParams = {
