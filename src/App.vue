@@ -97,6 +97,9 @@ export default Vue.extend({
         branch
       });
       this.searchCatalogState = QueryState.COMPLETED;
+      books.sort((a: BiblioCommonsBook, b: BiblioCommonsBook) =>
+        a.title.localeCompare(b.title)
+      );
       this.biblioCommonsBooks = books;
     }
   }
