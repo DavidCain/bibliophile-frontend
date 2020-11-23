@@ -3,6 +3,13 @@ import axios from "axios";
 import { Book as GoodreadsBook } from "./types/goodreads";
 import { Book, BookDescription } from "./types/bibliocommons";
 
+export enum QueryState {
+  NOT_STARTED,
+  IN_PROGRESS,
+  FAILED,
+  COMPLETED
+}
+
 type ReadShelfParams = {
   userId: string;
   shelf: string;

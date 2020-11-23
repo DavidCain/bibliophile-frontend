@@ -5,7 +5,7 @@
     <hr v-if="goodreadsBooks.length" />
     <div class="row">
       <div class="col-md-6">
-        <GoodreadsShelf :books="goodreadsBooks" />
+        <GoodreadsShelf :state="readShelfState" :books="goodreadsBooks" />
       </div>
       <div class="col-md-6">
         <BookList
@@ -24,7 +24,7 @@ import BookList from "./components/BookList.vue";
 import LookupForm from "./components/LookupForm.vue";
 import GoodreadsShelf from "./components/GoodreadsShelf.vue";
 
-import { readShelf, searchCatalog } from "./api";
+import { QueryState, readShelf, searchCatalog } from "./api";
 import { FormData } from "./types/forms";
 import { Book as GoodreadsBook } from "./types/goodreads";
 import { Book as BiblioCommonsBook } from "./types/bibliocommons";
@@ -33,6 +33,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
 type Data = {
+  readShelfState: QueryState;
   goodreadsBooks: GoodreadsBook[];
   biblioCommonsBooks: BiblioCommonsBook[];
 };
@@ -46,16 +47,19 @@ export default Vue.extend({
   },
   data(): Data {
     return {
+      readShelfState: QueryState.NOT_STARTED,
       biblioCommonsBooks: [],
       goodreadsBooks: []
     };
   },
   methods: {
     async onSubmit(form: FormData) {
+      this.readShelfState = QueryState.IN_PROGRESS;
       const books: GoodreadsBook[] = await readShelf({
         userId: form.userId,
         shelf: form.shelf
       });
+      this.readShelfState = QueryState.COMPLETED;
       books.sort((a: GoodreadsBook, b: GoodreadsBook) =>
         a.title.localeCompare(b.title)
       );
