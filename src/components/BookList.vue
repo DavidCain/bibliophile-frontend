@@ -13,6 +13,19 @@
     <div class="alert alert-warning" v-if="noResultsFound">
       Nothing found on the shelf!
     </div>
+    <div class="alert alert-info" v-if="fewResultsFound">
+      <strong>Expecting more matches?</strong>
+      <p>
+        The search algorithm currently searches for an <em>exact</em>
+        match on the ISBNs from your Goodreads shelf. A better algorithm is in
+        the works, where we favor exact ISBN matches but fall back to other
+        versions.
+      </p>
+      <p>
+        In the meantime, you might try swapping the ISBN "version" of any books
+        on your list (e.g. from paperback to hardcover).
+      </p>
+    </div>
   </div>
 </template>
 
@@ -39,6 +52,9 @@ export default Vue.extend({
   computed: {
     noResultsFound(): boolean {
       return this.state === QueryState.COMPLETED && !this.books.length;
+    },
+    fewResultsFound(): boolean {
+      return this.state === QueryState.COMPLETED && this.books.length < 5;
     }
   },
   data() {
