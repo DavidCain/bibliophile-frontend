@@ -93,7 +93,7 @@ import { FormData } from "../types/forms";
 export default Vue.extend({
   data() {
     const mainBranch: Branch | null =
-      SFPL.branches.find(branch => branch.name === "MAIN") ??
+      SFPL.branches.find(branch => branch.name === "*MAIN") ??
       SFPL.branches?.[0] ??
       null;
 

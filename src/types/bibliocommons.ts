@@ -41,43 +41,40 @@ export const SFPL: Library = {
   subdomain: "sfpl",
   name: "San Francisco Public Library",
   branches: [
-    { name: "MAIN", label: "Main Library" },
-    { name: "ANZA BRANCH", label: "Anza" },
-    { name: "BAYVIEW BRANCH", label: "Bayview" },
-    { name: "BERNAL HEIGHTS BRANCH", label: "Bernal Heights" },
-    { name: "CHILDREN'S BOOKMOBILE", label: "Children's Bookmobile" },
-    { name: "CHINATOWN BRANCH", label: "Chinatown" },
-    { name: "EUREKA VALLEY BRANCH", label: "Eureka Valley" },
-    { name: "EXCELSIOR BRANCH", label: "Excelsior" },
-    { name: "GLEN PARK BRANCH", label: "Glen Park" },
-    {
-      name: "GOLDEN GATE VALLEY BRANCH",
-      label: "Golden Gate Valley"
-    },
-    { name: "INGLESIDE BRANCH", label: "Ingleside" },
-    { name: "LIBRARY FOR THE BLIND", label: "Library for the Blind" },
-    { name: "MARINA BRANCH", label: "Marina" },
-    { name: "MERCED BRANCH", label: "Merced" },
-    { name: "MISSION", label: "Mission" },
-    { name: "MISSION BAY BRANCH", label: "Mission Bay" },
-    { name: "NOE VALLEY", label: "Noe Valley" },
-    { name: "NORTH BEACH BRANCH", label: "North Beach" },
-    { name: "OCEAN VIEW BRANCH", label: "Ocean View" },
-    { name: "ORTEGA BRANCH", label: "Ortega" },
-    { name: "PARK BRANCH", label: "Park" },
-    { name: "PARKSIDE BRANCH", label: "Parkside" },
-    { name: "PORTOLA BRANCH", label: "Portola" },
-    { name: "POTRERO BRANCH", label: "Potrero" },
-    { name: "PRESIDIO BRANCH", label: "Presidio" },
-    {
-      name: "PUBLIC KNOWLEDGE BRANCH (SFMOMA)",
-      label: "Public Knowledge Branch (SFMOMA)"
-    },
-    { name: "RICHMOND BRANCH", label: "Richmond" },
-    { name: "SUNSET BRANCH", label: "Sunset" },
-    { name: "VISITACION VALLEY BRANCH", label: "Visitacion Valley" },
-    { name: "WEST PORTAL BRANCH", label: "West Portal" },
-    { name: "WESTERN ADDITION BRANCH", label: "Western Addition" }
+    // These are just the branches that are no longer marked "CLOSED"
+    // They retain their old branch names, but now with an asterisk
+    { name: "*MAIN", label: "Main Library" },
+    { name: "*ANZA BRANCH", label: "Anza" },
+    { name: "*CHINATOWN BRANCH", label: "Chinatown" },
+    { name: "*EUREKA VALLEY BRANCH", label: "Eureka Valley" },
+    { name: "*EXCELSIOR BRANCH", label: "Excelsior" },
+    { name: "*MARINA BRANCH", label: "Marina" },
+    { name: "*MERCED BRANCH", label: "Merced" },
+    { name: "*MISSION BAY BRANCH", label: "Mission Bay" },
+    { name: "*ORTEGA BRANCH", label: "Ortega" },
+    { name: "*VISITACION VALLEY BRANCH", label: "Visitacion Valley" }
+    // Other options:
+    // Acquisition
+    // CHILDREN'S BOOKMOBILE
+    // CLOSED-BAYVIEW BRANCH
+    // CLOSED-BERNAL HEIGHTS BRANCH
+    // CLOSED-GLEN PARK BRANCH
+    // CLOSED-GOLDEN GATE VALLEY BRANCH
+    // CLOSED-INGLESIDE BRANCH
+    // CLOSED-MISSION
+    // CLOSED-NOE VALLEY BRANCH
+    // CLOSED-NORTH BEACH BRANCH
+    // CLOSED-OCEAN VIEW BRANCH
+    // CLOSED-PARK BRANCH
+    // CLOSED-PARKSIDE BRANCH
+    // CLOSED-PORTOLA BRANCH
+    // CLOSED-POTRERO BRANCH
+    // CLOSED-PRESIDIO BRANCH
+    // CLOSED-RICHMOND BRANCH
+    // CLOSED-SUNSET BRANCH
+    // CLOSED-WEST PORTAL BRANCH
+    // CLOSED-WESTERN ADDITION BRANCH
+    // PUBLIC KNOWLEDGE BRANCH (SFMOMA)
   ]
 };
 
