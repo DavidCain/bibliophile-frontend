@@ -8,10 +8,7 @@
         <GoodreadsShelf :state="readShelfState" :books="goodreadsBooks" />
       </div>
       <div class="col-md-6">
-        <BookList
-          :books="biblioCommonsBooks"
-          v-if="biblioCommonsBooks.length"
-        />
+        <BookList :state="searchCatalogState" :books="biblioCommonsBooks" />
       </div>
     </div>
   </div>
@@ -34,6 +31,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 
 type Data = {
   readShelfState: QueryState;
+  searchCatalogState: QueryState;
   goodreadsBooks: GoodreadsBook[];
   biblioCommonsBooks: BiblioCommonsBook[];
 };
@@ -48,6 +46,7 @@ export default Vue.extend({
   data(): Data {
     return {
       readShelfState: QueryState.NOT_STARTED,
+      searchCatalogState: QueryState.NOT_STARTED,
       biblioCommonsBooks: [],
       goodreadsBooks: []
     };
@@ -78,12 +77,14 @@ export default Vue.extend({
         author: bk.author
       }));
 
+      this.searchCatalogState = QueryState.IN_PROGRESS;
       const books: BiblioCommonsBook[] = await searchCatalog({
         // eslint-disable-next-line @typescript-eslint/camelcase
         biblio_subdomain: biblioSubdomain,
         books: bookDescriptions,
         branch
       });
+      this.searchCatalogState = QueryState.COMPLETED;
       this.biblioCommonsBooks = books;
     }
   }
