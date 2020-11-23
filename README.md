@@ -4,6 +4,8 @@ querying books available at your local library.
 
 Try it out at [biblio.dcain.me][biblio]!
 
+[![A list of titles available at my local library][reading-list-img]][biblio]
+
 ## Supporting projects
 
 This application hits an API endpoint hosted on AWS which makes use of
