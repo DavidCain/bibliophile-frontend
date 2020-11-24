@@ -10,6 +10,12 @@
       <span v-if="cachedDatestring">from {{ cachedDatestring }}</span
       >.
     </p>
+    <div v-if="noResultsFound">
+      <div class="alert alert-warning">
+        <strong>No books found on your shelf!</strong> Check your ID & shelf
+        name.
+      </div>
+    </div>
     <div v-for="book in books" v-bind:key="book.goodreads_id">
       <GoodreadsShelfItem :book="book" />
     </div>
@@ -54,6 +60,9 @@ export default Vue.extend({
       }
       const dateObject = new Date(this.cachedTimestamp * 1000);
       return dateObject.toLocaleString();
+    },
+    noResultsFound(): boolean {
+      return this.state === QueryState.COMPLETED && !this.books.length;
     },
     showResultsCached(): boolean {
       // Results aren't cached, exit early
