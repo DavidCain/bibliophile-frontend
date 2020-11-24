@@ -89,6 +89,9 @@ export default Vue.extend({
         author: bk.author
       }));
 
+      // Clear out any books left from the last search
+      this.biblioCommonsBooks = [];
+
       this.searchCatalogState = QueryState.IN_PROGRESS;
       const books: BiblioCommonsBook[] = await searchCatalog({
         // eslint-disable-next-line @typescript-eslint/camelcase
