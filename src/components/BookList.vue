@@ -5,6 +5,11 @@
       <b-icon icon="arrow-clockwise" animation="spin"></b-icon>
       Searching the stacks...
     </p>
+    <p class="text-center" v-if="howToCheckoutUrl && books.length">
+      <a class="text-muted" :href="howToCheckoutUrl"
+        >How to check out library items</a
+      >
+    </p>
     <ul class="list-unstyled">
       <li v-for="book in books" v-bind:key="book.call_number">
         <BookListItem :book="book" />
@@ -33,13 +38,17 @@
 import Vue, { PropType } from "vue";
 import { QueryState } from "../api";
 import BookListItem from "./BookListItem.vue";
-import { Book } from "../types/bibliocommons";
+import { Book, Library } from "../types/bibliocommons";
 
 export default Vue.extend({
   components: {
     BookListItem
   },
   props: {
+    library: {
+      type: Object as () => Library,
+      required: false
+    },
     state: {
       type: Number as () => QueryState,
       required: true
@@ -50,6 +59,18 @@ export default Vue.extend({
     }
   },
   computed: {
+    howToCheckoutUrl: function(): string | null {
+      if (!this.library) {
+        return null;
+      }
+      const urlBySubdomain: Record<string, string> = {
+        seattle:
+          "https://www.spl.org/hours-and-locations/road-to-reopening/curbside-service",
+        sfpl: "https://sfpl.org/sfpl-to-go",
+        aclibrary: "https://guides.aclibrary.org/NoContactPickup"
+      };
+      return urlBySubdomain[this.library.subdomain] || null;
+    },
     noResultsFound(): boolean {
       return this.state === QueryState.COMPLETED && !this.books.length;
     },

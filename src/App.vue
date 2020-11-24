@@ -13,7 +13,11 @@
         />
       </div>
       <div class="col-md-6">
-        <BookList :state="searchCatalogState" :books="biblioCommonsBooks" />
+        <BookList
+          :library="searchedLibrary"
+          :state="searchCatalogState"
+          :books="biblioCommonsBooks"
+        />
       </div>
     </div>
   </div>
@@ -29,7 +33,7 @@ import GoodreadsShelf from "./components/GoodreadsShelf.vue";
 import { QueryState, readShelf, searchCatalog } from "./api";
 import { FormData } from "./types/forms";
 import { Book as GoodreadsBook } from "./types/goodreads";
-import { Book as BiblioCommonsBook } from "./types/bibliocommons";
+import { Library, Book as BiblioCommonsBook } from "./types/bibliocommons";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -41,6 +45,7 @@ type Data = {
   searchCatalogState: QueryState;
   goodreadsBooks: GoodreadsBook[];
   biblioCommonsBooks: BiblioCommonsBook[];
+  searchedLibrary: Library | null;
 };
 
 export default Vue.extend({
@@ -57,11 +62,14 @@ export default Vue.extend({
       shelfCachedTimestamp: null,
       searchCatalogState: QueryState.NOT_STARTED,
       biblioCommonsBooks: [],
-      goodreadsBooks: []
+      goodreadsBooks: [],
+      searchedLibrary: null
     };
   },
   methods: {
     async onSubmit(form: FormData) {
+      this.searchedLibrary = form.library;
+
       this.readShelfState = QueryState.IN_PROGRESS;
       const { books, isReadFromCache, cachedTimestamp } = await readShelf({
         userId: form.userId,
