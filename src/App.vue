@@ -113,7 +113,7 @@ export default Vue.extend({
       );
       this.goodreadsBooks = books;
 
-      this.searchCatalog(
+      await this.searchCatalog(
         form.library.subdomain,
         form.branch?.name || null,
         books

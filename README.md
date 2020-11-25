@@ -1,3 +1,7 @@
+![CI](https://github.com/DavidCain/bibliophile-frontend/workflows/CI/badge.svg?branch=master)
+[![Code Coverage](https://codecov.io/gh/DavidCain/bibliophile-frontend/branch/master/graph/badge.svg)](https://codecov.io/gh/DavidCain/bibliophile-frontend)
+
+
 # About
 This is a Vue application that provides a graphical user interface for
 querying books available at your local library.
@@ -36,19 +40,11 @@ open http://localhost:5000/  # (Will also be on clipboard)
 # TODO
 This is a pet project I work on whenever I'm so inclined.
 
-I'm also using this project as an excuse to learn Vue.
+I'm also using this project as an excuse to learn Vue. At present, the major
+TODO is to make use of better TypeScript integration with Vue.
 
-There are some broader UX improvements & algorithm improvements to be
-made (all detailed in the [bibliophile][bibliophile] repo).
-
-## Build improvements
-- Better TypeScript support for Vue
-
-## Miscellaneous improvements
-- Tell axios that api.dcain.me is okay with CORS
-    - (this will save unnecessary OPTIONS requests)
-- Include only the icons we need (no need to bundle them all)
-    - Make sure to check if there's a tree-shaking option available
+There are also some broader UX improvements & algorithm improvements to be made
+(all detailed in the [bibliophile][bibliophile] repo).
 
 
 ### Attribution

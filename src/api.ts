@@ -23,7 +23,7 @@ type ReadShelfData = {
 };
 // TODO: This is lazy, and axios has much better TS integration
 // Use `AxiosResponse`, `axios.create()`, & similar
-type ReadShelfResponse = {
+export type ReadShelfResponse = {
   data: ReadShelfData;
 };
 
