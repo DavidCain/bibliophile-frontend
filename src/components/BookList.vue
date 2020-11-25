@@ -36,12 +36,17 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
+import { BIcon, BIconArrowClockwise } from "bootstrap-vue";
+
 import { QueryState } from "../api";
 import BookListItem from "./BookListItem.vue";
 import { Book, Library } from "../types/bibliocommons";
 
 export default Vue.extend({
   components: {
+    BIcon,
+    // eslint-disable-next-line vue/no-unused-components
+    BIconArrowClockwise,
     BookListItem
   },
   props: {

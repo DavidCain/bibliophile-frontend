@@ -89,8 +89,17 @@
 import Vue, { PropType } from "vue";
 import { Branch, SFPL, SUPPORTED_LIBRARIES } from "../types/bibliocommons";
 import { FormData } from "../types/forms";
+import {
+  BButton,
+  BForm,
+  BFormRow,
+  BFormSelect,
+  BFormGroup,
+  BFormInput
+} from "bootstrap-vue";
 
 export default Vue.extend({
+  components: { BButton, BForm, BFormSelect, BFormRow, BFormGroup, BFormInput },
   data() {
     const mainBranch: Branch | null =
       SFPL.branches.find(branch => branch.name === "*MAIN") ??
