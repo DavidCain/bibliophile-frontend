@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import LookupForm from "@/components/LookupForm.vue";
 import { FormData } from "@/types/forms";
-import { SFPL, Library } from "@/types/bibliocommons";
+import { SFPL, Library, SUPPORTED_LIBRARIES } from "@/types/bibliocommons";
 
 describe("GoodreadsShelfItem.vue", () => {
   beforeEach(() => {
@@ -14,6 +14,24 @@ describe("GoodreadsShelfItem.vue", () => {
     library: SFPL,
     branch: { name: "*MAIN", label: "Main Library" }
   };
+
+  it("defaults to the first branch when changing libraries", async () => {
+    const onSubmit = jest.fn() as (form: FormData) => void;
+    const wrapper = mount(LookupForm, {
+      propsData: { onSubmit }
+    });
+
+    const alamedaLib = SUPPORTED_LIBRARIES[0];
+    expect(alamedaLib.subdomain).toEqual("aclibrary");
+    expect(alamedaLib).not.toEqual(defaultForm.library);
+    await wrapper.find("select[id=library]").setValue(alamedaLib);
+    wrapper.find("form").trigger("submit");
+    expect(onSubmit).toBeCalledWith({
+      ...defaultForm,
+      library: alamedaLib,
+      branch: alamedaLib.branches[0]
+    });
+  });
 
   describe("localStorage caching", () => {
     it("uses defaults when localStorage is empty", () => {

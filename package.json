@@ -14,7 +14,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test:unit": "vue-cli-service test:unit --coverage",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -77,6 +77,11 @@
     "not dead"
   ],
   "jest": {
-    "preset": "@vue/cli-plugin-unit-jest/presets/typescript-and-babel"
+    "preset": "@vue/cli-plugin-unit-jest/presets/typescript-and-babel",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,vue}",
+      "!src/main.js"
+    ]
   }
 }
