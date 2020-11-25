@@ -1,25 +1,35 @@
 <template>
-  <div id="app" class="container">
-    <h1>Find great books</h1>
-    <LookupForm :onSubmit="onSubmit" />
-    <hr v-if="goodreadsBooks.length" />
-    <div class="row">
-      <div class="col-md-6">
-        <GoodreadsShelf
-          :state="readShelfState"
-          :isCached="shelfIsCached"
-          :cachedTimestamp="shelfCachedTimestamp"
-          :books="goodreadsBooks"
-        />
+  <div id="app">
+    <main role="main" class="container">
+      <h1>Find great books</h1>
+      <LookupForm :onSubmit="onSubmit" />
+      <hr v-if="goodreadsBooks.length" />
+      <div class="row">
+        <div class="col-md-6">
+          <GoodreadsShelf
+            :state="readShelfState"
+            :isCached="shelfIsCached"
+            :cachedTimestamp="shelfCachedTimestamp"
+            :books="goodreadsBooks"
+          />
+        </div>
+        <div class="col-md-6">
+          <BookList
+            :library="searchedLibrary"
+            :state="searchCatalogState"
+            :books="biblioCommonsBooks"
+          />
+        </div>
       </div>
-      <div class="col-md-6">
-        <BookList
-          :library="searchedLibrary"
-          :state="searchCatalogState"
-          :books="biblioCommonsBooks"
-        />
+    </main>
+    <footer class="footer">
+      <div class="container text-center">
+        <small class="text-muted">
+          Open source, running:
+          <a :href="commitLink" class="text-monospace">{{ gitCommitHash }}</a>
+        </small>
       </div>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -65,6 +75,14 @@ export default Vue.extend({
       goodreadsBooks: [],
       searchedLibrary: null
     };
+  },
+  computed: {
+    commitLink(): string {
+      return `https://github.com/DavidCain/bibliophile-frontend/commit/${this.gitCommitHash}`;
+    },
+    gitCommitHash(): string {
+      return process.env.GIT_COMMIT_HASH.slice(0, 8);
+    }
   },
   methods: {
     async onSubmit(form: FormData) {
@@ -126,9 +144,27 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-.container {
+<style>
+/* NOTE! These styles are *not* scoped. We want html/body to apply globally. */
+main {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px; /* Margin bottom by footer height */
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Set the fixed height of the footer here */
+  line-height: 60px; /* Vertically center the text there */
 }
 </style>
