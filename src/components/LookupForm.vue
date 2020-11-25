@@ -70,7 +70,7 @@
             <option
               v-for="branch in form.library.branches"
               v-bind:key="branch.name"
-              v-bind:value="branch.name"
+              v-bind:value="branch"
             >
               {{ branch.label }}
             </option>
@@ -87,7 +87,12 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Branch, SFPL, SUPPORTED_LIBRARIES } from "../types/bibliocommons";
+import {
+  Branch,
+  Library,
+  SFPL,
+  SUPPORTED_LIBRARIES
+} from "../types/bibliocommons";
 import { FormData } from "../types/forms";
 import {
   BButton,
@@ -98,23 +103,78 @@ import {
   BFormInput
 } from "bootstrap-vue";
 
+const CACHED_FORM_DATA = "lastSubmittedFormData";
+
+function populateForm(): FormData {
+  const defaultForm: FormData = {
+    userId: "41926065",
+    shelf: "to-read",
+    library: SFPL,
+    branch:
+      SFPL.branches.find(branch => branch.name === "*MAIN") ??
+      SFPL.branches?.[0] ??
+      null
+  };
+
+  const lastSubmittedItem: string | null = localStorage.getItem(
+    CACHED_FORM_DATA
+  );
+
+  // If nothing was found in the cache, just use defaults
+  if (!lastSubmittedItem) {
+    return defaultForm;
+  }
+
+  let lastSubmitted: FormData;
+  try {
+    lastSubmitted = JSON.parse(lastSubmittedItem);
+  } catch {
+    localStorage.removeItem(CACHED_FORM_DATA);
+    return defaultForm;
+  }
+
+  // We've found cached data!
+  // Use as much of it as possible.
+  const form: FormData = defaultForm;
+  form.userId = lastSubmitted.userId || defaultForm.userId;
+  form.shelf = lastSubmitted.shelf || defaultForm.shelf;
+
+  // It's possible that the library has since changed its name/label
+  // Subdomains should be constant, though.
+  const library: Library | undefined = SUPPORTED_LIBRARIES.find(
+    lib => lib.subdomain === lastSubmitted.library.subdomain
+  );
+
+  // If the cached library is no longer available, keep the Goodreads info
+  // But decline to load the library or the branch.
+  if (!library) {
+    return form;
+  }
+
+  form.library = library;
+  const lastBranch = lastSubmitted.branch;
+  if (lastBranch) {
+    // Handle the branch changing name/label, or being removed
+    const lastUsedBranch: Branch | undefined = library.branches.find(
+      libBranch =>
+        // Branches can change either their label or their internal ID!
+        // (For example, SF's Main Library changed from "MAIN" to "*MAIN"
+        // Both should be unique, though, so match based on either
+        libBranch.name === lastBranch.name ||
+        libBranch.label === lastBranch.label
+    );
+    form.branch = lastUsedBranch || library.branches[0];
+  } else {
+    form.branch = null;
+  }
+  return form;
+}
+
 export default Vue.extend({
   components: { BButton, BForm, BFormSelect, BFormRow, BFormGroup, BFormInput },
   data() {
-    const mainBranch: Branch | null =
-      SFPL.branches.find(branch => branch.name === "*MAIN") ??
-      SFPL.branches?.[0] ??
-      null;
-
-    const form: FormData = {
-      userId: "41926065",
-      shelf: "to-read",
-      library: SFPL,
-      branch: mainBranch.name
-    };
-
     return {
-      form,
+      form: populateForm(),
       libraryOptions: SUPPORTED_LIBRARIES.map(lib => ({
         value: lib,
         text: lib.name
@@ -135,11 +195,14 @@ export default Vue.extend({
   },
   methods: {
     selectFirstBranch() {
-      const branch = this.form.library.branches?.[0];
-      this.form.branch = branch?.name ?? null;
+      this.form.branch = this.form.library.branches?.[0] ?? null;
     },
     async handleSubmit() {
       this.inProgress = true;
+      // Save the form contents for use when the user returns to the site
+      // (once they've changed their default user ID & library choices, keep that)
+      localStorage.setItem(CACHED_FORM_DATA, JSON.stringify(this.form));
+
       try {
         await this.onSubmit(this.form);
       } finally {

@@ -84,7 +84,11 @@ export default Vue.extend({
       );
       this.goodreadsBooks = books;
 
-      this.searchCatalog(form.library.subdomain, form.branch, books);
+      this.searchCatalog(
+        form.library.subdomain,
+        form.branch?.name || null,
+        books
+      );
     },
     async searchCatalog(
       biblioSubdomain: string,
