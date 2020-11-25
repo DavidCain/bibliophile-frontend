@@ -3,7 +3,7 @@
     <main role="main" class="container">
       <h1>Find great books</h1>
       <LookupForm :onSubmit="onSubmit" />
-      <hr />
+      <hr v-if="requestsStarted" />
       <div class="row">
         <div class="col-md-6">
           <GoodreadsShelf
@@ -79,6 +79,12 @@ export default Vue.extend({
     };
   },
   computed: {
+    requestsStarted(): boolean {
+      return (
+        this.readShelfState !== QueryState.NOT_STARTED ||
+        this.searchCatalogState !== QueryState.NOT_STARTED
+      );
+    },
     commitLink(): string {
       return `https://github.com/DavidCain/bibliophile-frontend/commit/${this.gitCommitHash}`;
     },
