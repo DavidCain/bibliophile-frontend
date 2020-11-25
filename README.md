@@ -61,3 +61,4 @@ Favicon [licensed by FontAwesome][favicon-license].
 [favicon-license]: https://fontawesome.com/license
 [bibliophile]: https://github.com/DavidCain/bibliophile
 [bibliophile-backend]: https://github.com/DavidCain/bibliophile-backend
+[reading-list-img]: screenshots/reading_list.png
