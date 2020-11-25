@@ -3,7 +3,7 @@
     <main role="main" class="container">
       <h1>Find great books</h1>
       <LookupForm :onSubmit="onSubmit" />
-      <hr v-if="goodreadsBooks.length" />
+      <hr />
       <div class="row">
         <div class="col-md-6">
           <GoodreadsShelf
@@ -25,8 +25,13 @@
     <footer class="footer">
       <div class="container text-center">
         <small class="text-muted">
-          Open source, running:
-          <a :href="commitLink" class="text-monospace">{{ gitCommitHash }}</a>
+          Open source
+          <span v-if="gitCommitHash"
+            >, running:
+            <a :href="commitLink" class="text-monospace">{{
+              shortGitCommitHash
+            }}</a>
+          </span>
         </small>
       </div>
     </footer>
@@ -44,9 +49,6 @@ import { QueryState, readShelf, searchCatalog } from "./api";
 import { FormData } from "./types/forms";
 import { Book as GoodreadsBook } from "./types/goodreads";
 import { Library, Book as BiblioCommonsBook } from "./types/bibliocommons";
-
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
 
 type Data = {
   readShelfState: QueryState;
@@ -80,8 +82,11 @@ export default Vue.extend({
     commitLink(): string {
       return `https://github.com/DavidCain/bibliophile-frontend/commit/${this.gitCommitHash}`;
     },
+    shortGitCommitHash(): string {
+      return this.gitCommitHash.slice(0, 8);
+    },
     gitCommitHash(): string {
-      return process.env.GIT_COMMIT_HASH.slice(0, 8);
+      return process.env.GIT_COMMIT_HASH;
     }
   },
   methods: {

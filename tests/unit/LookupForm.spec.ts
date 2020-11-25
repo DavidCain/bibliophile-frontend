@@ -93,6 +93,16 @@ describe("GoodreadsShelfItem.vue", () => {
       expect(onSubmit).toBeCalledWith(defaultForm);
     });
 
+    it("uses the default configuration if saved value valid JSON, but missing keys", () => {
+      localStorage.setItem("lastSubmittedFormData", "{}");
+      const onSubmit = jest.fn() as (form: FormData) => void;
+      const wrapper = mount(LookupForm, {
+        propsData: { onSubmit }
+      });
+      wrapper.find("form").trigger("submit");
+      expect(onSubmit).toBeCalledWith(defaultForm);
+    });
+
     it("handles libraries that aren't found in the supported list", () => {
       const atlantis: Library = {
         subdomain: "atlantis",

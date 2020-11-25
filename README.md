@@ -42,8 +42,6 @@ There are some broader UX improvements & algorithm improvements to be
 made (all detailed in the [bibliophile][bibliophile] repo).
 
 ## Build improvements
-- Expand unit test coverage
-- Code coverage
 - Better TypeScript support for Vue
 
 ## Miscellaneous improvements

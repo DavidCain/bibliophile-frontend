@@ -110,10 +110,7 @@ function populateForm(): FormData {
     userId: "41926065",
     shelf: "to-read",
     library: SFPL,
-    branch:
-      SFPL.branches.find(branch => branch.name === "*MAIN") ??
-      SFPL.branches?.[0] ??
-      null
+    branch: SFPL.branches[0]
   };
 
   const lastSubmittedItem: string | null = localStorage.getItem(
@@ -138,6 +135,11 @@ function populateForm(): FormData {
   const form: FormData = defaultForm;
   form.userId = lastSubmitted.userId || defaultForm.userId;
   form.shelf = lastSubmitted.shelf || defaultForm.shelf;
+
+  // This shouldn't happen, but if local storage lacks a library, stop here.
+  if (!lastSubmitted.library) {
+    return form;
+  }
 
   // It's possible that the library has since changed its name/label
   // Subdomains should be constant, though.
@@ -195,7 +197,7 @@ export default Vue.extend({
   },
   methods: {
     selectFirstBranch() {
-      this.form.branch = this.form.library.branches?.[0] ?? null;
+      this.form.branch = this.form.library.branches[0];
     },
     async handleSubmit() {
       this.inProgress = true;

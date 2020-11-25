@@ -12,8 +12,8 @@
     </p>
     <div v-if="noResultsFound">
       <div class="alert alert-warning">
-        <strong>No books found on your shelf!</strong> Check your ID & shelf
-        name.
+        <strong>No books found on your shelf!</strong>
+        <span>Check your ID &amp; shelf name.</span>
       </div>
     </div>
     <div v-for="book in books" v-bind:key="book.goodreads_id">
